@@ -1,0 +1,24 @@
+{
+  "name": "blumidi-nwjs",
+  "version": "0.0.1",
+  "description": "midi visualizings in nw-js",
+  "main": "main.js",
+  "scripts": {
+    "dev": "nw front/",
+    "prod": "nwbuild --platforms win32,win64,osx64,linux32,linux64 --buildDir dist/ front/"
+  },
+  "author": "Bluto",
+  "license": "ISC",
+  "devDependencies": {
+    "nw": "^0.44.1-sdk",
+    "nw-builder": "^3.8.1"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "canvas": "^2.9.3",
+    "canvas-to-buffer": "^2.0.0",
+    "ffmpeg-stream": "^0.7.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "progress": "^2.0.3"
+  }
+}

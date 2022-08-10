@@ -1,0 +1,11 @@
+:root {
+	--theme-back: #151515;
+	--text-color: white;
+	--theme-back-pos: #252525;
+	--theme-back-pos2: #353535;
+	--theme-back-neg: #050505;
+	--theme-accent1-pos: #024aca;
+	--theme-accent1-neg: #00177D;
+	--theme-accent2-pos: #5BA8FF;
+	--theme-accent2-neg: #0A89FF;
+}

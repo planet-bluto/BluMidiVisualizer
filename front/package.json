@@ -1,0 +1,11 @@
+{
+  "main": "index.html",
+  "name": "nw-demo",
+  "chromium-args": "--allow-file-access-from-files --allow-file-access --user-data-dir",
+  "window": {
+	  "width": 960,
+	  "height": 570,
+    "position": "mouse",
+    "icon": "./assets/icon.png"
+  }
+}
