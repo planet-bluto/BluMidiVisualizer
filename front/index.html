@@ -6,9 +6,9 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,0" />
 		<title>BluMidiVisualizer</title>
-		<link rel="icon" type="image/png" sizes="32x32" href="assets/icon.png" />
-		<link href="default-theme.css" rel="stylesheet" type="text/css" />
-		<link href="style.css" rel="stylesheet" type="text/css" />
+		<link href="assets/icon.png" rel="icon" type="image/png" sizes="32x32" />
+		<link href="themes/default-theme.css" rel="stylesheet" type="text/css" />
+		<link href="src/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<span id="close-popup" class="material-symbols-outlined" style="display: none;">close</span>
@@ -25,7 +25,7 @@
 		</div>
 		<div class="popup" id="popup-startup">
 			<div title_logo>
-				<img src="assets/icon.png" main_image></img><span title>BluMidiVisualizer <span version>v1.0.0</span></span>
+				<img src="assets/icon.png" main_image></img><span title>BluMidiVisualizer <span version>v0.1.0</span></span>
 			</div>
 			<p link onclick='HeaderFuncs.File["Load Midi"]()'>Open Midi File</p>
 			<p link onclick='HeaderFuncs.File["Open Project..."]()'>Open BMV Project File</p>
@@ -66,18 +66,18 @@
 		<!-------- SCRIPTS -------->
 
 		<!-- PACKAGES -->
-		<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-		<script src="https://unpkg.com/@tonejs/midi"></script>
+		<script src="pack/sortable.js"></script>
+		<script src="pack/tone.js"></script>
 		<!-- BMV SOURCE -->
-		<script src="init.js"></script>
-		<script src="settings.js"></script>
-		<script src="headers.js"></script>
-		<script src="timeline.js"></script>
-		<script src="screen.js"></script>
-		<script src="play.js"></script>
-		<script src="track.js"></script>
-		<script src="render.js"></script>
-		<script src="export.js"></script>
-		<script src="test.js"></script>
+		<script src="src/init.js"></script>
+		<script src="src/settings.js"></script>
+		<script src="src/headers.js"></script>
+		<script src="src/timeline.js"></script>
+		<script src="src/screen.js"></script>
+		<script src="src/play.js"></script>
+		<script src="src/track.js"></script>
+		<script src="src/render.js"></script>
+		<script src="src/export.js"></script>
+		<!-- <script src="src/test.js"></script> -->
 	</body>
 </html>

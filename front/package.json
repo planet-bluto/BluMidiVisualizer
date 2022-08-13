@@ -1,11 +1,20 @@
 {
   "main": "index.html",
-  "name": "nw-demo",
+  "name": "BluMidiVisualizer",
   "chromium-args": "--allow-file-access-from-files --allow-file-access --user-data-dir",
   "window": {
-	  "width": 960,
-	  "height": 570,
+    "width": 960,
+    "height": 570,
     "position": "mouse",
     "icon": "./assets/icon.png"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "canvas": "^2.9.3",
+    "canvas-to-buffer": "^2.0.0",
+    "ffmpeg-stream": "^0.7.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "fs-extra": "^10.1.0",
+    "progress": "^2.0.3"
   }
 }
