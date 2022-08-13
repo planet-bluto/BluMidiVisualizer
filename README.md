@@ -49,7 +49,11 @@ This manages specific settings about the tracks.
 - The eye icon controls the track's visibility
 - The circle next to that is that track's color
 - The text input is the track name (for organization purposes)
-- The number input on the bottom is parallax. Can be negative and positive, and even a float value too. Higher numbers == higher note speed && less time on screen; Lower numbers == lower note speed && more time on screen; 
+- The number input on the bottom is parallax. Can be negative and positive, and even a float value too. Higher numbers == higher note speed && less time on screen; Lower numbers == lower note speed && more time on screen;
+- Dragging on the entire track element will change the drawing order. Example: You want people to see a melody over chords
+![Dragging track element to change draw order](https://i.imgur.com/msinXks.gif)
 
 ## "Export..." Popup
 Very straight forward at the moment. Click the big "[ START ]" button to start compiling the video. For advanced scenerios, there is a "Render Video" button under the start button. This is if the ".tmp" folder has all the frames of the video and you just want to recompiling it again, perhaps under different output settings.
+
+!["Export..." Popup](https://i.imgur.com/BNgDfoq.png)
