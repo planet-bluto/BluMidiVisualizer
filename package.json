@@ -1,6 +1,6 @@
 {
   "name": "blumidi-nwjs",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "BluMidiVisualizer",
   "scripts": {
     "dev": "nw front/",
