@@ -14,6 +14,10 @@ Make videos that shows every aspect of your cool music using midi files!
 - Export...: Opens video export popup
 - Close: **CLOSES ENTIRE EDITOR, BE CAREFUL!**
 
+### Help
+- Overview: Links to this page
+- Planet Bluto: Links to my portfolio site :)
+
 ## Properties Panel
 There are a lot of properties to mess around with to make your midi video look neat!
 ### Play Area (configure the main play area space)
