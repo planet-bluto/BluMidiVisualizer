@@ -172,10 +172,7 @@ var HEADERS = {
 	},
 	Help: {
 		"Overview": (() => {
-			print("overview..")
-		}),
-		"About": (() => {
-			print("about..")
+			nw.Shell.openExternal("https://github.com/planet-bluto/BluMidiVisualizer#readme")
 		}),
 		"div_0": "divider",
 		"Planet Bluto": (() => {

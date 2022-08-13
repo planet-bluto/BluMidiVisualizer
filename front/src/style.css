@@ -64,8 +64,21 @@ body {
 *[link] {
 	color: var(--theme-accent1-pos);
 	text-decoration: underline;
+	cursor: pointer;
 }
 
+*[update-link] {
+	animation: update_radiate 0.5s infinite alternate ease;
+}
+
+@keyframes update_radiate {
+  from {
+    color: var(--theme-accent2-neg);
+  }
+  to {
+    color: var(--theme-accent2-pos);
+  }
+}
 
 #close-popup {
 	cursor: pointer;

@@ -15,6 +15,7 @@
     "ffmpeg-stream": "^0.7.0",
     "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^10.1.0",
-    "progress": "^2.0.3"
+    "progress": "^2.0.3",
+    "node-fetch": "^3.2.10"
   }
 }

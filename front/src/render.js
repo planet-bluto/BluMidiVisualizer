@@ -60,6 +60,10 @@ function go() {
 }
 
 async function render_video() {
+	const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+	var ffmpeg = require('fluent-ffmpeg');
+	ffmpeg.setFfmpegPath(ffmpegPath);
+	// const { Converter } = require("ffmpeg-stream");
 	print("RENDER_VIDEO")
 	render_step = "comp"
 	var STOP_NOW = false
@@ -69,7 +73,7 @@ async function render_video() {
 	var process_prog = 0
 	document.getElementById('popup-export-status').textContent = "Processing..."
 	document.getElementById('export-progress').style = `--value: 0%; background: linear-gradient(to right, var(--theme-accent2-pos) 0% var(--value), var(--theme-accent1-pos) var(--value) 100%);`
-	let command = ffmpeg()
+	let command = new ffmpeg()
 	command.addInput('.tmp/frame-%d.png')
 	if (SETTINGS["Background"].music != null) { command.addInput(SETTINGS["Background"].music) } 
 	print(SETTINGS["Output"].resolution)

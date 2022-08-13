@@ -15,7 +15,7 @@
 		<div class="popup" id="popup-export" render=false>
 			<h2>Export...</h2>
 			<div id="export-options">
-				<input type="checkbox" id="export-split">
+				<!-- <input type="checkbox" id="export-split"> -->
 				<p link onclick="go()" id="main-export-button">[ START ]</p>
 				<p link onclick="render_video()" id="second-export-button">Render Video (Advanced)</p>
 			</div>
@@ -25,7 +25,7 @@
 		</div>
 		<div class="popup" id="popup-startup">
 			<div title_logo>
-				<img src="assets/icon.png" main_image></img><span title>BluMidiVisualizer <span version>v0.1.0</span></span>
+				<img src="assets/icon.png" main_image></img><span title>BluMidiVisualizer <span version>v0.1.0 <span id="version-check">( Checking version... )</span></span></span>
 			</div>
 			<p link onclick='HeaderFuncs.File["Load Midi"]()'>Open Midi File</p>
 			<p link onclick='HeaderFuncs.File["Open Project..."]()'>Open BMV Project File</p>

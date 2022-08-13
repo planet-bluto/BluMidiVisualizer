@@ -1,4 +1,5 @@
 const print = console.log
+const VERSION = "0.1.0"
 var MidiPath = null
 var CurrentMidi = null
 var TrackSort = []
@@ -17,10 +18,6 @@ var Session = {
     }
 }
 
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-var ffmpeg = require('fluent-ffmpeg');
-const { Converter } = require("ffmpeg-stream");
-ffmpeg.setFfmpegPath(ffmpegPath);
 const {Duplex} = require('stream');
 var ProgressBar = require('progress');
 // const { createCanvas, loadImage } = require('canvas');
@@ -206,6 +203,26 @@ class ContextQueue {
         this.queue.push({type: "value", title: "globalAlpha", value: args[0]})
     }
 }
+
+async function check_version() {
+    let res = await require('node-fetch')("https://raw.githubusercontent.com/planet-bluto/BluMidiVisualizer/master/package.json")
+    let package = JSON.parse(await res.text())
+    let ver_elem = document.getElementById('version-check')
+    print(package.version)
+    print(VERSION)
+    if (package.version != VERSION) {
+        ver_elem.textContent = "( NEWER VERSION AVAILIBLE! )"
+        ver_elem.setAttribute("link", "")
+        ver_elem.setAttribute("update-link", "")
+        ver_elem.onclick = e => {
+            nw.Shell.openExternal("https://github.com/planet-bluto/BluMidiVisualizer/releases")
+        }
+    } else {
+        ver_elem.textContent = "( Up to date! )"
+    }
+}
+
+check_version()
 
 hide_loading()
 show_popup("startup", false)
