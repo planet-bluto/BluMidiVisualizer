@@ -51,6 +51,7 @@ This manages specific settings about the tracks.
 - The text input is the track name (for organization purposes)
 - The number input on the bottom is parallax. Can be negative and positive, and even a float value too. Higher numbers == higher note speed && less time on screen; Lower numbers == lower note speed && more time on screen;
 - Dragging on the entire track element will change the drawing order. Example: You want people to see a melody over chords
+
 ![Dragging track element to change draw order](https://i.imgur.com/msinXks.gif)
 
 ## "Export..." Popup
