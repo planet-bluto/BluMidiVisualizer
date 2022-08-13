@@ -4,3 +4,5 @@ dist/
 bin/
 package-lock.json
 front/.tmp
+blu-midi-visualizer-nwjs.sublime-project
+blu-midi-visualizer-nwjs.sublime-workspace
