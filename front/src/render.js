@@ -60,7 +60,7 @@ function go() {
 }
 
 async function render_video() {
-	const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+	const ffmpegPath = require('ffmpeg-static');
 	var ffmpeg = require('fluent-ffmpeg');
 	ffmpeg.setFfmpegPath(ffmpegPath);
 	// const { Converter } = require("ffmpeg-stream");

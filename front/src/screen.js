@@ -72,16 +72,22 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 	Extents.height = SETTINGS["Output"].resolution
 
 	// PIANO //
+
 	let key_amount = SETTINGS["Piano"].notes
+	let perc_size = SETTINGS["Play Area"].percussion["area size"]
+	let perc_div = (perc_size > 0 ? SETTINGS["Play Area"].percussion["div width"] : 0)
+	let line_total = (perc_size + key_amount)
 	let start_key = SETTINGS["Piano"]["starting note"]
-	let key_height = Extents.height/key_amount
+	let key_height = (Extents.height-perc_div)/line_total
+	let perc_height = (perc_size*key_height)
+	let piano_height = Extents.height-perc_height
 	let key_width = SETTINGS["Piano"].width
 	let key_black_width = SETTINGS["Piano"]["black width"]
 	let x_mid = (Extents.width/2)+key_width
 	let y_mid = (Extents.height/2)
 
 	Layers["piano"].fillStyle(SETTINGS["Piano"].colors.natural)
-	Layers["piano"].fillRect(0, 0, key_width, Extents.height)
+	Layers["piano"].fillRect(0, 0, key_width, piano_height)
 
 	var blacks = [1, 3, 6, 8, 10]
 	blacks = blacks.map(black => {
@@ -94,7 +100,7 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 		let note_id = (i-(octave*12))
 		if (blacks.includes(note_id)) {
 			Layers["piano"].fillStyle(SETTINGS["Piano"].colors.unnatural)
-			Layers["piano"].fillRect(0, Extents.height-((key_height*i)+key_height), key_black_width, key_height)
+			Layers["piano"].fillRect(0, Extents.height-((key_height*i)+(key_height+perc_height)), key_black_width, key_height)
 		}
 	}
 
@@ -138,13 +144,23 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 	}
 
 	Layers["background"].globalAlpha(SETTINGS["Background"].opacity)
-	for (let i = 0; i < key_amount; i++) {
-		if ( (i+start_key) % 2 == 0 ) {
-			Layers["background"].fillStyle(SETTINGS["Background"].colors.first)
-			// Layers["background"].globalAlpha = 1
+	for (let i = 0; i < line_total; i++) {
+		if (i < key_amount) {
+			if ( (i+start_key) % 2 == 0 ) {
+				Layers["background"].fillStyle(SETTINGS["Background"].colors["line 1"])
+				// Layers["background"].globalAlpha = 1
+			} else {
+				Layers["background"].fillStyle(SETTINGS["Background"].colors["line 2"])
+				// Layers["background"].globalAlpha = 1
+			}
 		} else {
-			Layers["background"].fillStyle(SETTINGS["Background"].colors.second)
-			// Layers["background"].globalAlpha = 1
+			if ( i % 2 == 0 ) {	
+				Layers["background"].fillStyle(SETTINGS["Background"].colors["percussion line 1"])
+				// Layers["background"].globalAlpha = 1
+			} else {
+				Layers["background"].fillStyle(SETTINGS["Background"].colors["percussion line 2"])
+				// Layers["background"].globalAlpha = 1
+			}
 		}
 		Layers["background"].fillRect(0, key_height*i, Extents.width, key_height)
 	}
@@ -170,7 +186,7 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 					Layers["note"].fillStyle(this_info.color)
 					var visual_note = {
 						x: (x_mid + (note.time*sec))-(TIME*sec),
-						y: (Extents.height - (((note.midi+1) - start_key) * key_height) ),
+						y: (piano_height - (((note.midi+1) - start_key) * key_height) ),
 						w: (note.duration*sec),
 						h: key_height
 					}

@@ -26,7 +26,6 @@ var HEADERS = {
 					Session.updateProjectPath(file.path)
 					await LOAD_MIDI(project.MidiPath, true)
 					TrackSort = project.TrackSort
-					print(to_ids(CurrentMidi.tracks))
 					CurrentMidi.tracks = CurrentMidi.tracks.sort((a, b) => {
 						let a_id = String(CurrentMidi.tracks.indexOf(a))
 						let b_id = String(CurrentMidi.tracks.indexOf(b))
@@ -37,12 +36,10 @@ var HEADERS = {
 						// print(`[RES] `, (a_ind - b_ind))
 						return a_ind - b_ind
 					})
-					print(to_ids(CurrentMidi.tracks))
 					SETTINGS = project.SETTINGS
 					let unformatted = ["file", "drop-down", "check"]
 					Object.keys(SETTINGS).forEach(key => {
 						function format(input, value, type) {
-							print(type)
 							if (!unformatted.includes(type)) {
 								input.value = value
 							}
@@ -54,17 +51,17 @@ var HEADERS = {
 								})
 							}
 							if (type == "check") {
-								print(input)
-								print(value)
 								input.checked = value
 							}
 						}
 						Object.keys(SETTINGS[key]).forEach(sub_key => {
 							if (typeof SETTINGS[key][sub_key] !== 'object' || SETTINGS[key][sub_key] == null) {
 								format(SETTINGS_INPUTS[key][sub_key], SETTINGS[key][sub_key], SETTINGS_DATA[key][sub_key].type)
+								SETTINGS_CHANGES[key][sub_key].forEach(func => { func(SETTINGS[key][sub_key]) })
 							} else {
 								Object.keys(SETTINGS[key][sub_key]).forEach(last_key => {
 									format(SETTINGS_INPUTS[key][last_key], SETTINGS[key][sub_key][last_key], SETTINGS_DATA[key][last_key].type)
+									SETTINGS_CHANGES[key][sub_key][last_key].forEach(func => { func(SETTINGS[key][sub_key][last_key]) })
 								})
 							}
 						})
@@ -76,7 +73,8 @@ var HEADERS = {
 
 						let track_box_li = document.createElement('li')
 						let track_visible = document.createElement('button')
-						let track_color = document.createElement('input')
+						let track_color_cont = new ColorPicker(info.color)
+						let track_color = track_color_cont.button
 						let track_parallax = document.createElement('input')
 						let track_name = document.createElement('p')
 
@@ -84,15 +82,14 @@ var HEADERS = {
 						track_visible.innerHTML = `<span class="material-symbols-rounded"></span>`
 						track_visible.setAttribute("visible", info.visible)
 
-						track_color.type = "color"
 						track_color.classList.add('track-color-picker') 
-						track_color.value = info.color
-						let color_update = () => {
-							TrackInfo[track.id] .color = track_color.value
+						track_color_cont.joe.set(info.color)
+						let color_update = color => {
+							TrackInfo[track.id].color = color.hex()
 							timeline_update()
 						}
-						track_color.onchange = color_update
-						track_color.oninput = color_update
+						track_color_cont.on("change", color_update)
+						track_color_cont.on("done", color_update)
 
 						track_parallax.type = "number"
 						track_parallax.classList.add('track-parallax-input')

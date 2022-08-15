@@ -204,6 +204,64 @@ class ContextQueue {
     }
 }
 
+const HIDEN_STYLE = "display: none;"
+
+colorjoe.registerExtra('close', (p, joe, o) => {
+    let close_button = document.createElement('button')
+    close_button.textContent = "close"
+    close_button.onclick = e => {
+        p.parentElement.setAttribute('style', HIDEN_STYLE)
+        fade_out()
+    }
+    p.appendChild(close_button)
+    return {
+        change(col) {},
+        done(col) {}
+    };
+})
+
+class ColorPicker {
+    constructor(init_color) {
+
+        let button = document.createElement('div')
+        button.style = `background: ${init_color}`
+        button.classList.add('pickerButton')
+        let joe_elem = document.createElement('div')
+        joe_elem.style = HIDEN_STYLE
+        button.appendChild(joe_elem)
+
+        this.joe = colorjoe.rgb(joe_elem, init_color, ["hex", "close"])
+        joe_elem.classList.add('customColorPicker')
+
+
+        button.onclick = e => {
+            if (button !== e.target) { return }
+            let curr_style = joe_elem.getAttribute('style')
+            if (curr_style == HIDEN_STYLE) {
+                joe_elem.setAttribute('style', "")
+                fade_in()
+            } else {
+                joe_elem.setAttribute('style', HIDEN_STYLE)
+                fade_out()
+            }
+        }
+
+        this.button_update = () => { button.setAttribute('style', `background: ${this.value}; --scroll: ${this.scroll}`) }
+
+        let update_func = color => { this.value = color.hex(); this.button_update() }
+
+        this.joe.on("change", update_func)
+        this.joe.on("done", update_func)
+
+        this.button = button
+        this.value = init_color
+    }
+
+    on(event, func) {
+        this.joe.on(event, func)
+    }
+}
+
 async function check_version() {
     let res = await require('node-fetch')("https://raw.githubusercontent.com/planet-bluto/BluMidiVisualizer/master/package.json")
     let package = JSON.parse(await res.text())

@@ -17,9 +17,15 @@ var SETTINGS_DATA = {
 	"Play Area": {
 		zoom: RangeInput(2.5, 0.01, 5, 0.01),
 		"rounded notes": CheckInput(true),
+		"vertical scrolling": CheckInput(false),
 		playhead: Divider(),
 		"playhead width": NumberInput(3),
-		"playhead color": ColorInput("#ffffff")
+		"playhead color": ColorInput("#ffffff"),
+		end: DividerEnd(),
+		percussion: Divider(true),
+		"area size": NumberInput(0, 0),
+		"div width": NumberInput(5, 0),
+		"div color": ColorInput("#ffffff"),
 	},
 	"Piano": {
 		notes: NumberInput(12*7, 12),
@@ -36,9 +42,12 @@ var SETTINGS_DATA = {
 		"image type": DropDownInput(1, ["strech", "normal"]),
 		music: FileInput(null, [".mp3", ".wav", ".ogg"]),
 		colors: Divider(true),
-		first: ColorInput("#151515"),
-		second: ColorInput("#252525"),
-		background: ColorInput("#000000"),
+		"line 1": ColorInput("#151515"),
+		"line 2": ColorInput("#252525"),
+		background: ColorInput("#151515"),
+		"percussion line 1": ColorInput("#151515"),
+		"percussion line 2": ColorInput("#000000"),
+		"percussion background": ColorInput("#000000"),
 		end: DividerEnd(),
 		opacity: RangeInput(0.5, 0, 1, 0.01)
 	},
@@ -167,26 +176,24 @@ Object.keys(SETTINGS_DATA).forEach((key, i) => {
 				var div = document.createElement('div')
 				div.classList.add('property-input')
 
-				var input = document.createElement('input')
-				SETTINGS_INPUTS[key][sub_key] = input
-				input.setAttribute("type", "color")
-				input.setAttribute("value", current.def)
+				var input = new ColorPicker(current.def)
+				SETTINGS_INPUTS[key][sub_key] = input.button
 
-				var update = () => {
+				var update = color => {
 					if (SETTINGS_DATA[key][sub_key].div == null) {
-						SETTINGS[key][sub_key] = input.value
+						SETTINGS[key][sub_key] = color.hex()
 						SETTINGS_CHANGES[key][sub_key].forEach(func => { func(SETTINGS[key][sub_key]) })
 					} else {
 						let curr_div = SETTINGS_DATA[key][sub_key].div
-						SETTINGS[key][curr_div][sub_key] = input.value
+						SETTINGS[key][curr_div][sub_key] = color.hex()
 						SETTINGS_CHANGES[key][curr_div][sub_key].forEach(func => { func(SETTINGS[key][curr_div][sub_key]) })
 					}
 					draw_screen(TIME)
 				}
-				input.onchange = update
-				input.oninput = update
+				input.on("change", update)
+				input.on("done", update)
 
-				div.appendChild(input)
+				div.appendChild(input.button)
 				property_section.appendChild(div)
 			break;
 			case "file":
