@@ -361,12 +361,23 @@ div#tracks-panel {
     height: inherit;
     display: flex;
     overflow: hidden;
+    flex-wrap: wrap;
 }
 
-ul#track-list {
+#tracks-panel > ul {
 	width: 100%;
-    margin: 0px;
-    padding: 0px;
+  margin: 0px;
+  padding: 0px;
+  height: calc(50% - ((32px + 10px) * 2));
+  background: var(--theme-back);
+  border-radius: 15px;
+  overflow-y: scroll;
+}
+
+#tracks-panel > h2{
+	font-size: 32px;
+	margin-block-start: 5px;
+  margin-block-end: 5px;
 }
 
 li {
@@ -402,6 +413,23 @@ li > button[visible=false] > span::after{
 	content: "visibility_off";
 }
 
+input {
+	background: var(--theme-back);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+select {
+	background: var(--theme-back);
+  border: none;
+  border-radius: 15px;
+  padding: 10px;
+  color: white;
+}
+
 .track-color-picker {
 	-webkit-appearance: none;
 	background: none;
@@ -409,6 +437,7 @@ li > button[visible=false] > span::after{
 	cursor: pointer;
 	width: 30px;
 	height: 30px;
+	margin: -10px;
 }
 
 .track-color-picker::-webkit-color-swatch {
@@ -417,6 +446,15 @@ li > button[visible=false] > span::after{
 	/*width: 30px;*/
 	/*height: 30px;*/
 }
+
+ .track-input {
+	grid-column-start: 3;
+	grid-column-end: 3;
+	width: 80px;
+	margin-left: 40px;
+}
+
+li > p { text-transform: capitalize; }
 
 #panel-selector {
     width: calc(var(--panel-width) + 4px);
@@ -461,13 +499,9 @@ li > button[visible=false] > span::after{
 	background: var(--theme-back);
 }
 
-#track-list {
-	overflow-y: scroll;
-}
-
 #timeline {
 	width: calc(100vw - 150px);
-	margin-left: 135px;
+	margin-left: 105px;
 }
 
 #pause {
@@ -509,7 +543,7 @@ li > button[visible=false] > span::after{
 #timestamp {
 	position: absolute;
 	margin: 5px;
-	margin-left: 70px;
+	margin-left: 40px;
 }
 
 /* width */

@@ -3,6 +3,7 @@ const VERSION = "0.1.0"
 var MidiPath = null
 var CurrentMidi = null
 var TrackSort = []
+var PercSort = []
 var TrackInfo = {}
 var BackAudio = new Audio()
 var BackImg = new Image()
@@ -17,19 +18,15 @@ var Session = {
         window.document.title = "BluMidiVisualizer - " + path.replace(/^.*[\\\/]/, '')
     }
 }
+const unique = obj => { return JSON.parse(JSON.stringify(obj)) }
+
+nw.Window.get().zoomLevel = -1.5
 
 const {Duplex} = require('stream');
 var ProgressBar = require('progress');
 // const { createCanvas, loadImage } = require('canvas');
 const fs = require('fs-extra')
 var Frame = require("canvas-to-buffer")
-
-// ipcRenderer.on('file-save', (e, path) => {
-//     if (awaiting_project_path) {
-//         Session.updateProjectPath(path)
-//         awaiting_project_path = false
-//     }
-// })
 
 var fade_users = 0
 

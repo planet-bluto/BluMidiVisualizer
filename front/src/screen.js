@@ -175,10 +175,17 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 		let so_called_tracks = Object.assign([], CurrentMidi.tracks)
 		so_called_tracks.reverse()
 		so_called_tracks.forEach((track, t_i) => {
+			let type = "track"
 			let this_info = TrackInfo[String(track.id)]
+			print(String(track.id))
+			if ( PercSort.includes(String(track.id)) ) {
+				type = "perc"
+			}
+			if (this_info == null) { print(`${track.id} ==> NULL`) }
 			// print(`{c:${String(track.channel)}} [i:${String(track.id)}] `, [track, this_info])
-			if (this_info.visible) {
+			if (this_info != null && this_info.visible) {
 				let p_a = this_info.parallax
+				let t_a = this_info.transpose
 				let r = (SETTINGS["Play Area"]["rounded notes"] ? key_height : 0)
 				let sec = ( 200 * (SETTINGS["Play Area"].zoom + p_a) )
 				track.notes.forEach(note => {
@@ -186,7 +193,7 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 					Layers["note"].fillStyle(this_info.color)
 					var visual_note = {
 						x: (x_mid + (note.time*sec))-(TIME*sec),
-						y: (piano_height - (((note.midi+1) - start_key) * key_height) ),
+						y: (type == "track" ? (piano_height - (((note.midi+1) - start_key) * key_height) ) : (Extents.height - (t_a * key_height) ) ),
 						w: (note.duration*sec),
 						h: key_height
 					}
@@ -199,20 +206,22 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 					let endDist = Math.abs((note.time+note.duration)-TIME)
 
 
-					if (TIME >= note.time && TIME < (note.time + note.duration)) {
-						if (startDist < startDurr) {
-							let e = quinFunc((TIME - note.time)/startDurr)
-							let size = 20+(15*(1-e))
-							Layers["note-icons"].fillRect(x_mid-(size/2), (visual_note.y+(key_height/2))-(size/2), size, size)
-						} else if (TIME > (note.time + startDurr) && TIME < (note.time + note.duration)) {
-							let size = 20
-							Layers["note-icons"].fillRect(x_mid-(size/2), (visual_note.y+(key_height/2))-(size/2), size, size)
+					if ((note.midi+1) > start_key) {
+						if (TIME >= note.time && TIME < (note.time + note.duration)) {
+							if (startDist < startDurr) {
+								let e = quinFunc((TIME - note.time)/startDurr)
+								let size = 20+(15*(1-e))
+								Layers["note-icons"].fillRect(x_mid-(size/2), (visual_note.y+(key_height/2))-(size/2), size, size)
+							} else if (TIME > (note.time + startDurr) && TIME < (note.time + note.duration)) {
+								let size = 20
+								Layers["note-icons"].fillRect(x_mid-(size/2), (visual_note.y+(key_height/2))-(size/2), size, size)
+							}
 						}
-					}
 
-					if ( !(visual_note.x > Extents.width) || !(visual_note.x+visual_note.w < 0) ) {
-						Layers["note"].roundRect(visual_note.x, visual_note.y, visual_note.w, visual_note.h, r)
-						Layers["note"].fill()
+						if ( !(visual_note.x > Extents.width) || !(visual_note.x+visual_note.w < 0) ) {
+							Layers["note"].roundRect(visual_note.x, visual_note.y, visual_note.w, visual_note.h, r)
+							Layers["note"].fill()
+						}
 					}
 				})
 			}
