@@ -1,6 +1,6 @@
 var PrevExtents = {width: 0, height: 0};
 var Extents = {width: 0, height: 0};
-var LayerTitles = ["background-image", "background", "bar", "note", "piano", "playhead", "note-icons"];
+var LayerTitles = ["background-image", "background", "bar", "note", "piano", "perc_div", "playhead", "note-icons"];
 var PreviewLayers = {};
 var PreviewContexts = {};
 var RenderLayers = {};
@@ -80,7 +80,7 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 	let start_key = SETTINGS["Piano"]["starting note"]
 	let key_height = (Extents.height-perc_div)/line_total
 	let perc_height = (perc_size*key_height)
-	let piano_height = Extents.height-perc_height
+	let piano_height = Extents.height-(perc_height+perc_div)
 	let key_width = SETTINGS["Piano"].width
 	let key_black_width = SETTINGS["Piano"]["black width"]
 	let x_mid = (Extents.width/2)+key_width
@@ -100,9 +100,14 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 		let note_id = (i-(octave*12))
 		if (blacks.includes(note_id)) {
 			Layers["piano"].fillStyle(SETTINGS["Piano"].colors.unnatural)
-			Layers["piano"].fillRect(0, Extents.height-((key_height*i)+(key_height+perc_height)), key_black_width, key_height)
+			Layers["piano"].fillRect(0, Extents.height-((key_height*i)+(key_height+perc_height+perc_div)), key_black_width, key_height)
 		}
 	}
+
+	// Percussion Divider //
+
+	Layers["perc_div"].fillStyle(SETTINGS["Play Area"].percussion["div color"])
+	Layers["perc_div"].fillRect(0, piano_height, Extents.width, perc_div)
 
 	// BACKGROUND //
 
@@ -145,6 +150,7 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 
 	Layers["background"].globalAlpha(SETTINGS["Background"].opacity)
 	for (let i = 0; i < line_total; i++) {
+		var is_perc = false
 		if (i < key_amount) {
 			if ( (i+start_key) % 2 == 0 ) {
 				Layers["background"].fillStyle(SETTINGS["Background"].colors["line 1"])
@@ -154,6 +160,7 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 				// Layers["background"].globalAlpha = 1
 			}
 		} else {
+			is_perc = true
 			if ( i % 2 == 0 ) {	
 				Layers["background"].fillStyle(SETTINGS["Background"].colors["percussion line 1"])
 				// Layers["background"].globalAlpha = 1
@@ -162,7 +169,7 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 				// Layers["background"].globalAlpha = 1
 			}
 		}
-		Layers["background"].fillRect(0, key_height*i, Extents.width, key_height)
+		Layers["background"].fillRect(0, key_height*i+(is_perc ? perc_div : 0), Extents.width, key_height)
 	}
 	
 	// PLAYHEAD
@@ -177,7 +184,7 @@ async function DRAW_FRAME(FRAME, redraw_static = false, render = false) {
 		so_called_tracks.forEach((track, t_i) => {
 			let type = "track"
 			let this_info = TrackInfo[String(track.id)]
-			print(String(track.id))
+			// print(String(track.id))
 			if ( PercSort.includes(String(track.id)) ) {
 				type = "perc"
 			}
